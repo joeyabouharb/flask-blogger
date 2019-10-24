@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_marshmallow import Marshmallow
-from os import path, walk
+from os import path
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float
 
@@ -14,6 +14,9 @@ app.config['TESTING'] = True
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
+
+# Command line tools
+####################
 @app.cli.command('create_db')
 def create_db():
     db.create_all()
@@ -37,6 +40,9 @@ def seed_db():
     db.session.commit()
     print('Database seeded')
 
+
+# Web routes
+############
 @app.route('/')
 def display_index_page():
     return jsonify(message='Nothing here yet', app_version='0.0999999')
@@ -47,7 +53,9 @@ def display_blog_posts():
     result = posts_schema.dump(blog)
     return jsonify(result)
 
-# Database models
+
+# Database models and classes
+#############################
 class User(db.Model):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
@@ -55,20 +63,27 @@ class User(db.Model):
     password = Column(String)
     email = Column(String, unique=True)
 
+
 class Post(db.Model):
     __tablename__ = 'posts'
     post_id = Column(Integer, primary_key=True)
     title = Column(String)
     content = Column(String)
 
+
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'name', 'email', 'password')
+        fields = ('id',
+                'name',
+                'email',
+                'password')
 
 
 class PostSchema(ma.Schema):
     class Meta:
-        fields = ('post_id', 'title', 'content')
+        fields = ('post_id',
+                'title',
+                'content')
 
 
 user_schema = UserSchema()
