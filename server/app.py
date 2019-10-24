@@ -70,6 +70,9 @@ def display_single_post(post_id: int):
 @jwt_required # Routes are protected by JWT thusly - can be applied to other routes.
 def make_new_blog_post():
     """Accepts form data and creates new database record in blog-post table
+
+    Use Bearer Token in the Postman Authorization tab, take the
+    access token returned from '/login' route and inject.
     
     Requires:
         JWT authorization
@@ -92,6 +95,27 @@ def update_post():
         return jsonify(message="Post updated!"), 202
     else:
         return jsonify(message="No post with that ID"), 404
+
+@app.route('/delete-post/<int:post_id>', methods=['DELETE'])
+def delete_post(post_id: int):
+    """Delete the record from database posts table
+
+    Just enter the blog-post number into Postman with a DELETE request:
+        ./delete-post/666
+
+    Arguments:
+        post_id: int: takes the argument from the URL
+
+    Returns:
+        message and status code in JSON
+    """
+    post = Post.query.filter_by(post_id=post_id).first()
+    if post:
+        db.session.delete(post)
+        db.session.commit()
+        return jsonify(message="You obliterated that post"), 202
+    else:
+        return jsonify(message="No post by that ID"), 404
 
 @app.route('/register', methods=['POST'])
 def register():
