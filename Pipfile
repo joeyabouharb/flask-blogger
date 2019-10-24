@@ -9,6 +9,9 @@ verify_ssl = true
 flask = "*"
 flask-sqlalchemy = "*"
 flask-marshmallow = "*"
+flask-jwt-extended = "*"
+python-dotenv = "*"
+marshmallow-sqlalchemy = "*"
 
 [requires]
 python_version = "3"
