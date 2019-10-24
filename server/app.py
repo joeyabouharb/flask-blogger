@@ -1,8 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_marshmallow import Marshmallow
 from os import path
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
 app = Flask(__name__)
 basedir = path.abspath(path.dirname(__file__))
@@ -12,9 +13,11 @@ app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 app.config['TESTING'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_SECRET_KEY'] = 'not-a-secret' # Fix later setup ENV var if blog goes live
+
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-
+jwt = JWTManager(app)
 
 # Command line tools
 ####################
@@ -53,6 +56,41 @@ def display_blog_posts():
     blog = Post.query.all()
     result = posts_schema.dump(blog)
     return jsonify(result)
+
+@app.route('/register', methods=['POST'])
+def register():
+    print(request.args)
+    email = request.form['email']
+    is_already_registered = User.query.filter_by(email=email).first()
+    if is_already_registered:
+        return jsonify(message='This author already registered.'), 409
+    else:
+        name = request.form['name']
+        password = request.form['password']
+        user = User(name=name, email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify(message='New author added to the blog!'), 201
+
+@app.route('/login', methods=['POST'])
+def login():
+    """Login can accept JSON credentials
+    Returns:
+        JSON (access_token, message)
+    """
+    if request.is_json:
+        email = request.json['email']
+        password = request.json['password']
+    else:
+        email = request.form['email']
+        password = request.form['password']
+
+    is_verified_user = User.query.filter_by(email=email, password=password).first()
+    if is_verified_user:
+        access_token = create_access_token(identity=email)
+        return jsonify(message="Successful login", access_token=access_token)
+    else:
+        return jsonify(message="Can't be verified at this time"), 401
 
 
 # Database models and classes
