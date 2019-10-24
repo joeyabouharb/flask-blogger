@@ -8,6 +8,9 @@ app = Flask(__name__)
 basedir = path.abspath(path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' \
         + path.join(basedir, 'flask_blog.db')
+app.config['ENV'] = 'development'
+app.config['DEBUG'] = True
+app.config['TESTING'] = True
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
