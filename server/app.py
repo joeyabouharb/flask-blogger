@@ -37,9 +37,9 @@ def seed_db():
     db.session.commit()
     print('Database seeded')
 
-@app.route('/api')
-def super_simple():
-    return jsonify(message='No no')
+@app.route('/')
+def display_index_page():
+    return jsonify(message='Nothing here yet', app_version='0.0999999')
 
 @app.route('/blog', methods=['GET'])
 def display_blog_posts():
