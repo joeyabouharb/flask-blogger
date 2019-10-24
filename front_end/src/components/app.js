@@ -8,7 +8,7 @@ const App = () => (
   el(
     Fragment, null,
     Header,
-    el(Switch, null, InjectRoutes),
+    InjectRoutes,
     Footer,
   )
 );

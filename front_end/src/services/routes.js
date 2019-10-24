@@ -1,6 +1,6 @@
 import { createElement as el } from 'react';
 import {
-  Route,
+  Route, Switch
 } from 'react-router-dom';
 import Articles from '../components/articles';
 
@@ -19,7 +19,7 @@ const routes = [
 ];
 
 
-export const InjectRoutes = routes.map(
+export const InjectRoutes = el(Switch, null, routes.map(
   ({
     path, exact, component: Component, ...rest
   }) => (
@@ -29,7 +29,7 @@ export const InjectRoutes = routes.map(
       exact,
       render: (props) => (el(Component, { ...props, ...rest })),
     })),
-);
+));
 
 
 export default routes;
