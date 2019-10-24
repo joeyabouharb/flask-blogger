@@ -67,14 +67,31 @@ def display_single_post(post_id: int):
         return jsonify(message="Post does not exist"), 404
 
 @app.route('/new-post', methods=['POST'])
+@jwt_required # Routes are protected by JWT thusly - can be applied to other routes.
 def make_new_blog_post():
-    """Accepts form data and creates new database record in blog-post table"""
+    """Accepts form data and creates new database record in blog-post table
+    
+    Requires:
+        JWT authorization
+    """
     title = request.form['title']
     content = request.form['content']
     new_post = Post(title=title, content=content)
     db.session.add(new_post)
     db.session.commit()
     return jsonify(message="New blog post created"), 201
+
+@app.route('/update-post', methods=['PUT'])
+def update_post():
+    post_id = int(request.form['post_id'])
+    post = Post.query.filter_by(post_id=post_id).first()
+    if post:
+        post.title = request.form['title']
+        post.content = request.form['content']
+        db.session.commit()
+        return jsonify(message="Post updated!"), 202
+    else:
+        return jsonify(message="No post with that ID"), 404
 
 @app.route('/register', methods=['POST'])
 def register():
