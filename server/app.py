@@ -66,7 +66,7 @@ def display_single_post(post_id: int):
     else:
         return jsonify(message="Post does not exist"), 404
 
-@app.route('/new_post', methods=['POST'])
+@app.route('/create_post', methods=['POST'])
 @jwt_required # Routes are protected by JWT thusly - can be applied to other routes.
 def make_new_blog_post():
     """Accepts form data and creates new database record in blog-post table
