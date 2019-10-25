@@ -51,13 +51,13 @@ def seed_db():
 def display_index_page():
     return jsonify(message='Nothing here yet', app_version='0.0999999')
 
-@app.route('/blog_all', methods=['GET'])
+@app.route('/api/v1/posts', methods=['GET'])
 def display_blog_posts():
     blog = Post.query.all()
     result = posts_schema.dump(blog)
     return jsonify(result)
 
-@app.route('/blog_single/<int:post_id>', methods=['GET'])
+@app.route('/api/v1/posts/<int:post_id>', methods=['GET'])
 def display_single_post(post_id: int):
     post = Post.query.filter_by(post_id=post_id).first()
     if post:
@@ -66,13 +66,14 @@ def display_single_post(post_id: int):
     else:
         return jsonify(message="Post does not exist"), 404
 
-@app.route('/create_post', methods=['POST'])
+@app.route('/api/v1/posts', methods=['POST'])
 def make_new_blog_post():
     """Accepts form data and creates new database record in blog-post table
 
     Use Bearer Token in the Postman Authorization tab, take the
     access token returned from '/login' route and inject.
     
+    JWT is currently broken after ROUTE changes---------fix later
     Requires:
         JWT authorization
     """
@@ -83,19 +84,19 @@ def make_new_blog_post():
     db.session.commit()
     return jsonify(message="New blog post created"), 201
 
-@app.route('/update_post', methods=['PUT'])
+@app.route('/api/v1/posts', methods=['PUT'])
 def update_post():
-    post_id = int(request.form['post_id'])
+    post_id = int(request.json['post_id'])
     post = Post.query.filter_by(post_id=post_id).first()
     if post:
-        post.title = request.form['title']
-        post.content = request.form['content']
+        post.title = request.json['title']
+        post.content = request.json['content']
         db.session.commit()
         return jsonify(message="Post updated!"), 202
     else:
         return jsonify(message="No post with that ID"), 404
 
-@app.route('/delete_post/<int:post_id>', methods=['DELETE'])
+@app.route('/api/v1/posts/<int:post_id>', methods=['DELETE'])
 def delete_post(post_id: int):
     """Delete the record from database posts table
 
@@ -116,21 +117,21 @@ def delete_post(post_id: int):
     else:
         return jsonify(message="No post by that ID"), 404
 
-@app.route('/register_user', methods=['POST'])
+@app.route('/api/v1/register', methods=['POST'])
 def register_user():
-    email = request.form['email']
+    email = request.json['email']
     is_already_registered = User.query.filter_by(email=email).first()
     if is_already_registered:
         return jsonify(message='This author already registered.'), 409
     else:
-        name = request.form['name']
-        password = request.form['password']
+        name = request.json['name']
+        password = request.json['password']
         user = User(name=name, email=email, password=password)
         db.session.add(user)
         db.session.commit()
         return jsonify(message='New author added to the blog!'), 201
 
-@app.route('/login_user', methods=['POST'])
+@app.route('/api/v1/login', methods=['POST'])
 def login():
     """Login can accept JSON credentials
     Returns:
