@@ -51,13 +51,13 @@ def seed_db():
 def display_index_page():
     return jsonify(message='Nothing here yet', app_version='0.0999999')
 
-@app.route('/blog', methods=['GET'])
+@app.route('/blog_all', methods=['GET'])
 def display_blog_posts():
     blog = Post.query.all()
     result = posts_schema.dump(blog)
     return jsonify(result)
 
-@app.route('/blog/<int:post_id>', methods=['GET'])
+@app.route('/blog_single/<int:post_id>', methods=['GET'])
 def display_single_post(post_id: int):
     post = Post.query.filter_by(post_id=post_id).first()
     if post:
@@ -66,7 +66,7 @@ def display_single_post(post_id: int):
     else:
         return jsonify(message="Post does not exist"), 404
 
-@app.route('/new-post', methods=['POST'])
+@app.route('/new_post', methods=['POST'])
 @jwt_required # Routes are protected by JWT thusly - can be applied to other routes.
 def make_new_blog_post():
     """Accepts form data and creates new database record in blog-post table
@@ -84,7 +84,7 @@ def make_new_blog_post():
     db.session.commit()
     return jsonify(message="New blog post created"), 201
 
-@app.route('/update-post', methods=['PUT'])
+@app.route('/update_post', methods=['PUT'])
 def update_post():
     post_id = int(request.form['post_id'])
     post = Post.query.filter_by(post_id=post_id).first()
@@ -96,7 +96,7 @@ def update_post():
     else:
         return jsonify(message="No post with that ID"), 404
 
-@app.route('/delete-post/<int:post_id>', methods=['DELETE'])
+@app.route('/delete_post/<int:post_id>', methods=['DELETE'])
 def delete_post(post_id: int):
     """Delete the record from database posts table
 
@@ -117,8 +117,8 @@ def delete_post(post_id: int):
     else:
         return jsonify(message="No post by that ID"), 404
 
-@app.route('/register', methods=['POST'])
-def register():
+@app.route('/register_user', methods=['POST'])
+def register_user():
     print(request.args)
     email = request.form['email']
     is_already_registered = User.query.filter_by(email=email).first()
@@ -132,7 +132,7 @@ def register():
         db.session.commit()
         return jsonify(message='New author added to the blog!'), 201
 
-@app.route('/login', methods=['POST'])
+@app.route('/login_user', methods=['POST'])
 def login():
     """Login can accept JSON credentials
     Returns:
