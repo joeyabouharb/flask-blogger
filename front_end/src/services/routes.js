@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import Articles from '../components/articles';
 import ArticleForm from '../components/article-form';
+import RegisterForm from '../components/register';
 
 
 const routes = [
@@ -24,9 +25,9 @@ const routes = [
   },
   {
     path: 'register',
-    component: '',
-    exact: true
-  }
+    component: RegisterForm,
+    exact: true,
+  },
 ];
 
 
