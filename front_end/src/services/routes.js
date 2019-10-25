@@ -1,4 +1,4 @@
-import { createElement as el } from 'react';
+import { createElement } from 'react';
 import {
   Route, Switch,
 } from 'react-router-dom';
@@ -13,7 +13,7 @@ const routes = [
     component: Articles,
   },
   {
-    path: '/home',
+    path: '/blog',
     component: Articles,
     exact: true,
   },
@@ -22,18 +22,23 @@ const routes = [
     component: ArticleForm,
     exact: true,
   },
+  {
+    path: 'register',
+    component: '',
+    exact: true
+  }
 ];
 
 
-export const InjectRoutes = el(Switch, null, routes.map(
+export const InjectRoutes = createElement(Switch, null, routes.map(
   ({
     path, exact, component, ...rest
   }) => (
-    el(Route, {
+    createElement(Route, {
       key: path,
       path,
       exact,
-      render: (props) => (el(component, { ...props, ...rest })),
+      render: (props) => (createElement(component, { ...props, ...rest })),
     })),
 ));
 

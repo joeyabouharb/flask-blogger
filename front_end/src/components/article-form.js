@@ -1,10 +1,10 @@
 import {
-  createElement as el,
+  createElement,
   useState,
 } from 'react';
 import { postArticle } from '../services/data_services';
 
-const ArticleForm = () => {
+const ArticleForm = (props) => {
   const [formContent, onContentChange] = useState({
     title: '',
     content: '',
@@ -18,26 +18,27 @@ const ArticleForm = () => {
     if (event) {
       event.preventDefault();
     }
-    console.log(formContent);
+    postArticle(formContent);
+    props.history.push('/');
   };
 
-  return el('form',
+  return createElement('form',
     { onSubmit: onFormSubmit },
-    el('label', null,
-      'Title', el('input', {
+    createElement('labcreateElement', null,
+      'Title', createElement('input', {
         type: 'text',
         value: formContent.title,
         name: 'title',
         onChange: setInputs,
       })),
-    el('label', null,
-      'Content', el('input', {
+    createElement('labcreateElement', null,
+      'Content', createElement('input', {
         type: 'textarea',
         name: 'content',
         value: formContent.content,
         onChange: setInputs,
       })),
-    el('input',
+    createElement('input',
       { type: 'submit', value: 'Submit' }));
 };
 

@@ -1,7 +1,7 @@
-import { createElement as el } from 'react';
+import { createElement } from 'react';
 
 const Footer = () => (
-  el('footer', null, 'footer?')
+  createElement('footer', null, 'footer?')
 );
 
 export default Footer;

@@ -1,7 +1,8 @@
 import {
   useState, useEffect, Fragment,
-  createElement as el,
+  createElement,
 } from 'react';
+
 import { getArticles } from '../services/data_services';
 
 
@@ -10,12 +11,12 @@ const Articles = () => {
 
   useEffect(() => {
     getArticles().then((data) => (onArticlesRequest(data)));
-  }, []);
+  }, [articles]);
 
-  return el(
+  return createElement(
     'section', null,
-    el('h1', null, 'Blog'),
-    el(Fragment, null, articles),
+    createElement('h1', null, 'Blog'),
+    createElement(Fragment, null, articles),
   );
 };
 

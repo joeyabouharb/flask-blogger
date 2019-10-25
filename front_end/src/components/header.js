@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { createElement as el } from 'react';
+import { createElement } from 'react';
 
-const Header = () => el(
+const Header = () => createElement(
   'nav', null,
-  el(Link, { to: '/blog' }, 'Home'),
-  el(Link, { to: '/blog/new' }, 'New Post'),
+  createElement(Link, { to: '/blog' }, 'Home'),
+  createElement(Link, { to: '/blog/new' }, 'New Post'),
 );
 
 export default Header;
