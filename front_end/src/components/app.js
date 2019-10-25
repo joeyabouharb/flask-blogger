@@ -6,9 +6,9 @@ import Footer from './footer';
 const App = () => (
   el(
     Fragment, null,
-    Header,
+    el(Header),
     InjectRoutes,
-    Footer,
+    el(Footer),
   )
 );
 

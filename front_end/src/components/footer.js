@@ -1,6 +1,6 @@
 import { createElement as el } from 'react';
 
-const Footer = (
+const Footer = () => (
   el('footer', null, 'footer?')
 );
 
