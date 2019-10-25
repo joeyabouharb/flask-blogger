@@ -73,6 +73,7 @@ def make_new_blog_post():
     Use Bearer Token in the Postman Authorization tab, take the
     access token returned from '/login' route and inject.
     
+    JWT is currently broken after ROUTE changes---------fix later
     Requires:
         JWT authorization
     """
