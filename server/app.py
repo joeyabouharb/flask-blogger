@@ -51,7 +51,7 @@ def seed_db():
 def display_index_page():
     return jsonify(message='Nothing here yet', app_version='0.0999999')
 
-@app.route('api/v1/posts', methods=['GET'])
+@app.route('/api/v1/posts', methods=['GET'])
 def display_blog_posts():
     blog = Post.query.all()
     result = posts_schema.dump(blog)
