@@ -76,8 +76,8 @@ def make_new_blog_post():
     Requires:
         JWT authorization
     """
-    title = request.form['title']
-    content = request.form['content']
+    title = request.json['title']
+    content = request.json['content']
     new_post = Post(title=title, content=content)
     db.session.add(new_post)
     db.session.commit()
@@ -118,7 +118,6 @@ def delete_post(post_id: int):
 
 @app.route('/register_user', methods=['POST'])
 def register_user():
-    print(request.args)
     email = request.form['email']
     is_already_registered = User.query.filter_by(email=email).first()
     if is_already_registered:
