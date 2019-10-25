@@ -85,11 +85,11 @@ def make_new_blog_post():
 
 @app.route('/update_post', methods=['PUT'])
 def update_post():
-    post_id = int(request.form['post_id'])
+    post_id = int(request.json['post_id'])
     post = Post.query.filter_by(post_id=post_id).first()
     if post:
-        post.title = request.form['title']
-        post.content = request.form['content']
+        post.title = request.json['title']
+        post.content = request.json['content']
         db.session.commit()
         return jsonify(message="Post updated!"), 202
     else:
@@ -118,13 +118,13 @@ def delete_post(post_id: int):
 
 @app.route('/register_user', methods=['POST'])
 def register_user():
-    email = request.form['email']
+    email = request.json['email']
     is_already_registered = User.query.filter_by(email=email).first()
     if is_already_registered:
         return jsonify(message='This author already registered.'), 409
     else:
-        name = request.form['name']
-        password = request.form['password']
+        name = request.json['name']
+        password = request.json['password']
         user = User(name=name, email=email, password=password)
         db.session.add(user)
         db.session.commit()
