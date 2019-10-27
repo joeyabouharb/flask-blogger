@@ -9,6 +9,7 @@ const ArticleForm = (props) => {
     title: '',
     content: '',
   });
+
   const setInputs = (event) => onContentChange({
     ...formContent,
     [event.target.name]: event.target.value,
@@ -22,24 +23,43 @@ const ArticleForm = (props) => {
     props.history.push('/');
   };
 
-  return createElement('form',
-    { onSubmit: onFormSubmit },
-    createElement('labcreateElement', null,
-      'Title', createElement('input', {
-        type: 'text',
-        value: formContent.title,
-        name: 'title',
-        onChange: setInputs,
-      })),
-    createElement('labcreateElement', null,
-      'Content', createElement('input', {
-        type: 'textarea',
-        name: 'content',
-        value: formContent.content,
-        onChange: setInputs,
-      })),
-    createElement('input',
-      { type: 'submit', value: 'Submit' }));
+  return createElement(
+    'form', {
+      onSubmit: onFormSubmit,
+      style: { display: 'flex', flexFlow: 'column' },
+    }, createElement(
+      'label', null,
+      'Title', createElement(
+        'input', {
+          type: 'text',
+          value: formContent.title,
+          name: 'title',
+          onChange: setInputs,
+          style: { width: '300px' },
+        },
+      ),
+    ),
+    createElement(
+      'label', null,
+      'Content', createElement(
+        'textarea', {
+          name: 'content',
+          value: formContent.content,
+          onChange: setInputs,
+          style: {
+            width: '300px', height: '100px',
+          },
+        },
+      ),
+    ),
+    createElement(
+      'input', {
+        type: 'submit',
+        value: 'Submit',
+        style: { margin: '10px' },
+      },
+    ),
+  );
 };
 
 export default ArticleForm;
