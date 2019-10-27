@@ -2,17 +2,17 @@
 * data services
 */
 
-const URL = 'http://127.0.0.1:5000';
+const URL = 'http://127.0.0.1:5000/api/v1';
 
 export const getArticles = () => fetch(
-  `${URL}/blog_all`,
+  `${URL}/posts`,
 ).then((res) => res.json()).catch((err) => {
   throw err;
 });
 
 export const postArticle = (data) => {
   fetch(
-    `${URL}/create_post`, {
+    `${URL}/posts`, {
       method: 'POST',
       mode: 'cors',
       credentials: 'same-origin',
