@@ -1,14 +1,14 @@
-import { createElement as el, Fragment } from 'react';
+import { createElement, Fragment } from 'react';
 import { InjectRoutes } from '../services/routes';
 import Header from './header';
 import Footer from './footer';
 
 const App = () => (
-  el(
+  createElement(
     Fragment, null,
-    el(Header),
+    createElement(Header),
     InjectRoutes,
-    el(Footer),
+    createElement(Footer),
   )
 );
 

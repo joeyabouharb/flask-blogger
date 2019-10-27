@@ -11,12 +11,15 @@ module.exports = {
     rules: [
       { test: /\.(js|jsx)$/, use: 'babel-loader' },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] }
-    ]
+    ],
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
   },
   mode: 'development',
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      template: './public/index.html',
     })
   ]
 

@@ -12,14 +12,10 @@ const Articles = () => {
   useEffect(() => {
     getArticles().then((data) => onArticlesRequest(
       data.map(
-        (article, key) => createElement(
-          'article', { key },
-          createElement(
-            'h2', null, article.title,
-          ),
-          createElement(
-            'p', null, article.content,
-          ),
+        ({ title, content }) => createElement(
+          'article', { key: title },
+          createElement('h2', null, title),
+          createElement('p', null, content),
         ),
       ),
     ));
