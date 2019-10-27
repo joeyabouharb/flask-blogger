@@ -1,19 +1,12 @@
 /*
 * data services
 */
-import { createElement } from 'react';
 
 const URL = 'http://127.0.0.1:5000';
 
 export const getArticles = () => fetch(
   `${URL}/blog_all`,
-).then((res) => res.json()).then(
-  (data) => data.map(
-    (article, key) => createElement('article', { key },
-      createElement('h2', null, article.title),
-      createElement('p', null, article.content)),
-  ),
-).catch((err) => {
+).then((res) => res.json()).catch((err) => {
   throw err;
 });
 

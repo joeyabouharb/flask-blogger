@@ -39,7 +39,9 @@ export const InjectRoutes = createElement(Switch, null, routes.map(
       key: path,
       path,
       exact,
-      render: (props) => (createElement(component, { ...props, ...rest })),
+      render: (props) => (
+        createElement(component, { ...props, ...rest })
+      ),
     })),
 ));
 
