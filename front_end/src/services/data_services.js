@@ -24,3 +24,33 @@ export const postArticle = (data) => {
     },
   );
 };
+
+export const loginRequest = (data) => {
+  fetch(
+    `${URL}/login`, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(data),
+    },
+  );
+};
+
+export const registerRequest = (data) => {
+  fetch(
+    `${URL}/register`, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(data),
+    },
+  );
+}
