@@ -7,7 +7,7 @@ import { getArticles } from '../services/data_services';
 
 
 const Articles = () => {
-  const [articles, onArticlesRequest] = useState('');
+  const [articles, onArticlesRequest] = useState(null);
 
   useEffect(() => {
     getArticles().then((data) => onArticlesRequest(
@@ -19,7 +19,7 @@ const Articles = () => {
         ),
       ),
     ));
-  }, [articles]);
+  }, []);
 
   return createElement(
     'section', null,

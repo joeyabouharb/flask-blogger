@@ -1,47 +1,78 @@
 import { createElement } from 'react';
 import {
-  Route, Switch,
+  Route, Redirect,
 } from 'react-router-dom';
 import Articles from '../components/articles';
 import ArticleForm from '../components/article-form';
 import RegisterForm from '../components/register';
+import Login from '../components/login';
+import * as requests from './data_services';
+import { useAuthContext } from '../contexts/auth/store';
 
-
-const routes = [
+const defaultRoutes = [
   {
     path: '/',
     exact: true,
     component: Articles,
+    request: () => requests.getArticles,
   },
   {
     path: '/blog',
     component: Articles,
     exact: true,
+    request: () => requests.getArticles,
   },
+  {
+    path: '/register',
+    component: RegisterForm,
+    exact: true,
+  },
+  {
+    path: '/login',
+    component: Login,
+    exact: true,
+  },
+];
+
+const secureRoutes = [
   {
     path: '/blog/new',
     component: ArticleForm,
     exact: true,
   },
-  {
-    path: 'register',
-    component: RegisterForm,
-    exact: true,
-  },
 ];
 
-
-export const InjectRoutes = createElement(Switch, null, routes.map(
+export const Router = defaultRoutes.map(
   ({
     path, exact, component, ...rest
-  }) => (
-    createElement(Route, {
+  }) => createElement(
+    Route, {
       key: path,
       path,
       exact,
-      render: (props) => (createElement(component, { ...props, ...rest })),
-    })),
-));
+      render: (props) => (
+        createElement(component, { ...props, ...rest })),
+    },
+  ),
+);
 
-
-export default routes;
+export const SecureRouter = () => {
+  const state = useAuthContext();
+  return secureRoutes.map(
+    ({
+      path, exact, component, ...rest
+    }) => createElement(
+      Route, {
+        key: path,
+        path,
+        exact,
+        render: (props) => (
+          state
+            ? createElement(
+              component, { ...props, ...rest },
+            )
+            : createElement(Redirect, { to: '/' })),
+      },
+    ),
+  );
+};

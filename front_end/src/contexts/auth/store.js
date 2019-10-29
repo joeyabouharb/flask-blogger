@@ -1,11 +1,39 @@
 import React, {
   createElement,
-  useEffect,
-  useState,
+  useReducer,
+  useContext,
 } from 'react';
+import PropTypes from 'prop-types';
+import loginReducer from './reducers';
 
-export const AuthContext = React.createContext();
+const AuthContext = React.createContext();
+const AuthDispatchContext = React.createContext();
+const initialState = null;
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [state, dispatch] = useReducer(loginReducer, initialState);
+
+  return createElement(
+    AuthContext.Provider,
+    { value: state },
+    createElement(
+      AuthDispatchContext.Provider, { value: dispatch },
+      children,
+    ),
+  );
 };
+
+AuthProvider.propTypes = {
+  children: PropTypes.element.isRequired,
+};
+
+export const useAuthContext = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('Hmm?');
+  }
+  return context;
+};
+
+
+export const useAuthDispatch = () => useContext(AuthDispatchContext);

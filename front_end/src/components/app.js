@@ -1,15 +1,23 @@
-import { createElement, Fragment } from 'react';
-import { InjectRoutes } from '../services/routes';
+import { createElement } from 'react';
+import { Switch, BrowserRouter } from 'react-router-dom';
+import { Router, SecureRouter } from '../services/routes';
 import Header from './header';
 import Footer from './footer';
+import { AuthProvider } from '../contexts/auth/store';
 
-const App = () => (
+const App = () => createElement(
+  AuthProvider, null,
   createElement(
-    Fragment, null,
+    BrowserRouter, null,
     createElement(Header),
-    InjectRoutes,
+    createElement(
+      Switch, null,
+      Router,
+    ),
+    createElement(SecureRouter),
     createElement(Footer),
-  )
+  ),
 );
+
 
 export default App;

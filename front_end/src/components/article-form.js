@@ -1,26 +1,19 @@
 import {
-  createElement,
-  useState,
+  createElement, useState,
 } from 'react';
-import { postArticle } from '../services/data_services';
 
-const ArticleForm = (props) => {
+const ArticleForm = () => {
   const [formContent, onContentChange] = useState({
     title: '',
     content: '',
   });
-
   const setInputs = (event) => onContentChange({
     ...formContent,
     [event.target.name]: event.target.value,
   });
 
   const onFormSubmit = (event) => {
-    if (event) {
-      event.preventDefault();
-    }
-    postArticle(formContent);
-    props.history.push('/');
+    event.preventDefault();
   };
 
   return createElement(

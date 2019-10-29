@@ -1,23 +1,31 @@
 import { createElement, useState } from 'react';
-import { registerRequest } from '../services/data_services';
+import { loginRequest } from '../services/data_services';
+import { useAuthDispatch } from '../contexts/auth/store';
+import { userLogsIn } from '../contexts/auth/actions';
 
-const RegisterForm = (props) => {
+const Login = (props) => {
   const [formContent, onContentChange] = useState({
-    name: '',
     email: '',
     password: '',
   });
+
   const setInputs = (event) => onContentChange({
     ...formContent,
     [event.target.name]: event.target.value,
   });
 
+  const dispatch = useAuthDispatch();
+
   const onFormSubmit = (event) => {
     event.preventDefault();
-    registerRequest(formContent).then((response) => {
-      if (response.status === 201) {
-        props.history.push('/');
+    loginRequest(formContent).then((data) => {
+      if (data.access_token) {
+        dispatch(userLogsIn(data.access_token));
+      } else {
+        throw new Error('Invalid Credentials!');
       }
+    }).then(() => props.history.push('/')).catch((error) => {
+      alert(error);
     });
   };
 
@@ -25,18 +33,7 @@ const RegisterForm = (props) => {
     'form', {
       onSubmit: onFormSubmit,
       style: { display: 'flex', flexFlow: 'column' },
-    }, createElement(
-      'label', null,
-      'Title', createElement(
-        'input', {
-          type: 'text',
-          value: formContent.name,
-          name: 'name',
-          onChange: setInputs,
-          style: { width: '300px' },
-        },
-      ),
-    ),
+    },
     createElement(
       'label', null,
       'email', createElement(
@@ -69,4 +66,4 @@ const RegisterForm = (props) => {
   );
 };
 
-export default RegisterForm;
+export default Login;
