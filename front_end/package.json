@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/joeyabouharb/flask-blogger#readme",
   "dependencies": {
+    "jsonwebtoken": "^8.5.1",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",

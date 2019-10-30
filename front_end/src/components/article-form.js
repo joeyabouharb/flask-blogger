@@ -1,12 +1,19 @@
 import {
-  createElement, useState,
+  createElement, useState, useEffect,
 } from 'react';
+import { useAuthContext } from '../contexts/auth/store';
+import { postArticle } from '../services/data_services';
 
-const ArticleForm = () => {
+const ArticleForm = (props) => {
+  const state = useAuthContext();
   const [formContent, onContentChange] = useState({
     title: '',
     content: '',
+    access_token: '',
   });
+  useEffect(() => {
+    formContent.access_token = state.access_token;
+  }, []);
   const setInputs = (event) => onContentChange({
     ...formContent,
     [event.target.name]: event.target.value,
@@ -14,6 +21,18 @@ const ArticleForm = () => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
+    console.log(formContent);
+    postArticle(formContent).then(
+      (response) => {
+        if (response.status === 200 || response.status === 201) {
+          props.history.push('/');
+        } else {
+          throw new Error('??');
+        }
+      },
+    ).catch((err) => {
+      throw new Error(err);
+    });
   };
 
   return createElement(

@@ -10,16 +10,20 @@ export const getArticles = () => fetch(
   throw err;
 });
 
-export const postArticle = (data) => fetch(
+export const postArticle = ({ access_token, ...body }) => fetch(
   `${URL}/posts`, {
     method: 'POST',
     mode: 'cors',
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      ...body,
+      access_token,
+    }),
   },
 );
 
