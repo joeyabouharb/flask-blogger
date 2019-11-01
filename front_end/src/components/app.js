@@ -1,21 +1,26 @@
 import { createElement } from 'react';
 import { Switch, BrowserRouter } from 'react-router-dom';
-import { Router, SecureRouter } from '../services/routes';
+import { Router, SecureRouter, GuestRouter } from '../services/routes';
 import Header from './header';
 import Footer from './footer';
 import { AuthProvider } from '../contexts/auth/store';
+import '../styles/index.sass';
 
 const App = () => createElement(
-  AuthProvider, null,
+  'section', { className: 'section' },
   createElement(
-    BrowserRouter, null,
-    createElement(Header),
+    AuthProvider, null,
     createElement(
-      Switch, null,
-      Router,
+      BrowserRouter, null,
+      createElement(Header),
+      createElement(
+        Switch, null,
+        Router,
+      ),
+      createElement(SecureRouter),
+      createElement(GuestRouter),
+      createElement(Footer),
     ),
-    createElement(SecureRouter),
-    createElement(Footer),
   ),
 );
 

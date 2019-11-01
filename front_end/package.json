@@ -27,12 +27,15 @@
   },
   "homepage": "https://github.com/joeyabouharb/flask-blogger#readme",
   "dependencies": {
+    "bulma": "^0.8.0",
     "jsonwebtoken": "^8.5.1",
+    "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router": "^5.1.2",
-    "react-router-dom": "^5.1.2"
+    "react-router-dom": "^5.1.2",
+    "sass-loader": "^8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",

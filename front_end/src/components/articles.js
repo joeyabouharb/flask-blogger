@@ -1,5 +1,5 @@
 import {
-  useState, useEffect, Fragment,
+  useState, useEffect,
   createElement,
 } from 'react';
 
@@ -13,21 +13,36 @@ const Articles = () => {
     getArticles().then((data) => onArticlesRequest(
       data.map(
         ({ title, content }) => createElement(
-          'article', { key: title },
-          createElement('h2', null, title),
-          createElement('p', null, content),
+          'article', {
+            key: title,
+            className: 'hero-body',
+          },
+          createElement(
+            'h2', {
+              className: 'title is-2',
+            }, title,
+          ),
+          createElement(
+            'p', {
+              className: 'sibtitle',
+            }, content,
+          ),
         ),
       ),
     ));
   }, []);
 
   return createElement(
-    'section', null,
+    'main', { className: 'section' },
     createElement(
-      'h1', null, 'Blog',
+      'h1', {
+        className: 'title is-1',
+      }, 'Blog',
     ),
     createElement(
-      Fragment, null, articles,
+      'section', {
+        className: 'hero is-light',
+      }, articles,
     ),
   );
 };

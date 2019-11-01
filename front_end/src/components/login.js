@@ -8,7 +8,7 @@ const Login = (props) => {
     email: '',
     password: '',
   });
-
+  const [messages, onMessageChange] = useState('');
   const setInputs = (event) => onContentChange({
     ...formContent,
     [event.target.name]: event.target.value,
@@ -25,43 +25,63 @@ const Login = (props) => {
         throw new Error('Invalid Credentials!');
       }
     }).then(() => props.history.push('/')).catch((error) => {
-      alert(error);
+      onMessageChange(error);
     });
   };
 
   return createElement(
     'form', {
       onSubmit: onFormSubmit,
-      style: { display: 'flex', flexFlow: 'column' },
+      className: 'section',
     },
     createElement(
-      'label', null,
-      'email', createElement(
-        'input', {
-          name: 'email',
-          type: 'email',
-          value: formContent.email,
-          onChange: setInputs,
-        },
-      ),
-    ),
-    createElement(
-      'label', null, 'password: ',
-      createElement(
-        'input', {
-          type: 'password',
-          name: 'password',
-          value: formContent.password,
-          onChange: setInputs,
-        },
-      ),
-    ),
-    createElement(
-      'input', {
-        type: 'submit',
-        value: 'Submit',
-        style: { margin: '10px' },
+      'div', {
+        className: 'field',
       },
+      createElement(
+        'label', {
+          className: 'label',
+        },
+        createElement(
+          'div', {
+            className: 'control',
+          },
+          'Email: ', createElement(
+            'input', {
+              name: 'email',
+              type: 'email',
+              value: formContent.email,
+              onChange: setInputs,
+              className: 'input',
+            },
+          ),
+        ),
+      ),
+    ),
+    createElement(
+      'div', {
+        className: 'field',
+      },
+      createElement(
+        'label', { className: 'label' },
+        'Password: ',
+        createElement('div', { className: 'control' }, createElement(
+          'input', {
+            type: 'password',
+            name: 'password',
+            value: formContent.password,
+            onChange: setInputs,
+            className: 'input',
+          },
+        )),
+      ),
+    ),
+    createElement('p', null, `${messages}`),
+    createElement(
+      'button', {
+        type: 'submit',
+        className: 'button',
+      }, 'Submit',
     ),
   );
 };

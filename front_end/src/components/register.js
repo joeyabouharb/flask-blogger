@@ -24,47 +24,77 @@ const RegisterForm = (props) => {
   return createElement(
     'form', {
       onSubmit: onFormSubmit,
-      style: { display: 'flex', flexFlow: 'column' },
-    }, createElement(
-      'label', null,
-      'Title', createElement(
-        'input', {
-          type: 'text',
-          value: formContent.name,
-          name: 'name',
-          onChange: setInputs,
-          style: { width: '300px' },
-        },
-      ),
-    ),
+      className: 'section',
+    },
     createElement(
-      'label', null,
-      'email', createElement(
-        'input', {
-          name: 'email',
-          type: 'email',
-          value: formContent.email,
-          onChange: setInputs,
-        },
-      ),
-    ),
-    createElement(
-      'label', null, 'password: ',
-      createElement(
-        'input', {
-          type: 'password',
-          name: 'password',
-          value: formContent.password,
-          onChange: setInputs,
-        },
-      ),
-    ),
-    createElement(
-      'input', {
-        type: 'submit',
-        value: 'Submit',
-        style: { margin: '10px' },
+      'div', {
+        className: 'field',
       },
+      createElement(
+        'div', {
+          className: 'control',
+        },
+        createElement(
+          'label', {
+            className: 'label',
+          },
+          'Username: ', createElement(
+            'input', {
+              type: 'text',
+              value: formContent.name,
+              name: 'name',
+              onChange: setInputs,
+              className: 'input',
+            },
+          ),
+        ),
+      ),
+    ),
+    createElement(
+      'div', {
+        className: 'field',
+      },
+      createElement(
+        'div', { className: 'control' },
+        createElement(
+          'label', { className: 'label' },
+          'Email: ',
+          createElement(
+            'input', {
+              name: 'email',
+              type: 'email',
+              value: formContent.email,
+              onChange: setInputs,
+              className: 'input',
+            },
+          ),
+        ),
+      ),
+    ),
+    createElement(
+      'div', { className: 'field' }, createElement('div', { className: 'control' },
+        createElement(
+          'label', { className: 'label' }, 'Password: ',
+          createElement(
+            'input', {
+              type: 'password',
+              name: 'password',
+              value: formContent.password,
+              onChange: setInputs,
+              className: 'input',
+            },
+          ),
+        )),
+    ),
+    createElement(
+      'div', { className: 'field' },
+      createElement('div', { className: 'control' },
+        createElement(
+          'button', {
+            type: 'submit',
+            className: 'button',
+          }, 'Submit',
+        )),
     ),
   );
 };

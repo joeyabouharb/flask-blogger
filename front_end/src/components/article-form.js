@@ -21,7 +21,6 @@ const ArticleForm = (props) => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    console.log(formContent);
     postArticle(formContent).then(
       (response) => {
         if (response.status === 200 || response.status === 201) {
@@ -38,37 +37,47 @@ const ArticleForm = (props) => {
   return createElement(
     'form', {
       onSubmit: onFormSubmit,
-      style: { display: 'flex', flexFlow: 'column' },
+      className: 'section',
     }, createElement(
-      'label', null,
-      'Title', createElement(
-        'input', {
-          type: 'text',
-          value: formContent.title,
-          name: 'title',
-          onChange: setInputs,
-          style: { width: '300px' },
-        },
+      'div', { className: 'field' },
+      createElement(
+        'label', { className: 'label' },
+      ),
+      createElement(
+        'div', { className: 'control' },
+        'Title: ', createElement(
+          'input', {
+            type: 'text',
+            value: formContent.title,
+            name: 'title',
+            onChange: setInputs,
+            className: 'input',
+          },
+        ),
       ),
     ),
     createElement(
-      'label', null,
-      'Content', createElement(
-        'textarea', {
-          name: 'content',
-          value: formContent.content,
-          onChange: setInputs,
-          style: {
-            width: '300px', height: '100px',
+      'div', { className: 'field' },
+      createElement(
+        'label', { className: 'label' },
+      ),
+      createElement(
+        'div', { className: 'control' },
+        'Content: ', createElement(
+          'textarea', {
+            name: 'content',
+            value: formContent.content,
+            onChange: setInputs,
+            className: 'input',
           },
-        },
+        ),
       ),
     ),
     createElement(
       'input', {
         type: 'submit',
         value: 'Submit',
-        style: { margin: '10px' },
+        className: 'button is-link',
       },
     ),
   );

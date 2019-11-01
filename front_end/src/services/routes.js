@@ -6,7 +6,6 @@ import Articles from '../components/articles';
 import ArticleForm from '../components/article-form';
 import RegisterForm from '../components/register';
 import Login from '../components/login';
-import * as requests from './data_services';
 import { useAuthContext } from '../contexts/auth/store';
 
 const defaultRoutes = [
@@ -14,14 +13,15 @@ const defaultRoutes = [
     path: '/',
     exact: true,
     component: Articles,
-    request: () => requests.getArticles,
   },
   {
     path: '/blog',
     component: Articles,
     exact: true,
-    request: () => requests.getArticles,
   },
+];
+
+const guestRoutes = [
   {
     path: '/register',
     component: RegisterForm,
@@ -55,6 +55,28 @@ export const Router = defaultRoutes.map(
     },
   ),
 );
+
+export const GuestRouter = () => {
+  const state = useAuthContext();
+  return guestRoutes.map(
+    ({
+      path, exact, component, ...rest
+    }) => createElement(
+      Route, {
+        key: path,
+        path,
+        exact,
+        render: (props) => (
+          !state
+            ? createElement(
+              component, { props, ...rest },
+            )
+            : createElement(Redirect, { to: '/' })
+        ),
+      },
+    ),
+  );
+};
 
 export const SecureRouter = () => {
   const state = useAuthContext();
