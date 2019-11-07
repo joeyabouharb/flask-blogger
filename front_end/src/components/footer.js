@@ -7,14 +7,14 @@ const Footer = () => {
 
   return createElement(
     'footer', {
-      className: 'footer ',
+      className: 'footer has-background-dark',
     },
     createElement(
       'div', {
         className: 'content has-text-centered',
       },
       createElement(
-        'p', null,
+        'p', { className: 'has-text-light' },
         'Blogg Platform ©2019',
       ),
       createElement(

@@ -4,34 +4,31 @@ import {
 } from 'react';
 
 import { getArticles } from '../services/data_services';
-
+import { Pagination } from './pagination';
+import Article from './article';
+import { ArticlesProvider, useArticleDispatch, useArticleContext } from '../contexts/article/store';
+import { requestArticles } from '../contexts/article/actions';
 
 const Articles = () => {
-  const [articles, onArticlesRequest] = useState(null);
+  return createElement(ArticlesProvider, {}, createElement(ArticlesContent));
+};
+
+const ArticlesContent = () => {
+  const { result, pageNo } = useArticleContext();
+  const articleDispatcher = useArticleDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [initialPager, setInitialPager] = useState();
 
   useEffect(() => {
-    getArticles().then((data) => onArticlesRequest(
-      data.map(
-        ({ title, content }) => createElement(
-          'article', {
-            key: title,
-            className: 'hero-body',
-          },
-          createElement(
-            'h2', {
-              className: 'title is-2',
-            }, title,
-          ),
-          createElement(
-            'p', {
-              className: 'sibtitle',
-            }, content,
-          ),
-        ),
-      ),
-    ));
-  }, []);
-
+    getArticles(currentPage).then(
+      (data) => {
+        articleDispatcher(
+        requestArticles(data)
+      );
+      setInitialPager(pageNo < 5 ? pageNo : 5);
+    }
+    );
+  }, [pageNo]);
   return createElement(
     'main', { className: 'section' },
     createElement(
@@ -42,8 +39,9 @@ const Articles = () => {
     createElement(
       'section', {
         className: 'hero is-light',
-      }, articles,
-    ),
+      }, '',
+    ), result ? result.map((content) => Article(content)) : '',
+    createElement(Pagination, { currentPage, setCurrentPage, initialPager })
   );
 };
 

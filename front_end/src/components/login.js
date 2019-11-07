@@ -24,7 +24,7 @@ const Login = (props) => {
       } else {
         throw new Error('Invalid Credentials!');
       }
-    }).then(() => props.history.push('/')).catch((error) => {
+    }).then().catch((error) => {
       onMessageChange(error);
     });
   };
@@ -39,12 +39,12 @@ const Login = (props) => {
         className: 'field',
       },
       createElement(
-        'label', {
-          className: 'label',
+        'div', {
+          className: 'control',
         },
         createElement(
-          'div', {
-            className: 'control',
+          'label', {
+            className: 'label',
           },
           'Email: ', createElement(
             'input', {
@@ -65,15 +65,20 @@ const Login = (props) => {
       createElement(
         'label', { className: 'label' },
         'Password: ',
-        createElement('div', { className: 'control' }, createElement(
-          'input', {
-            type: 'password',
-            name: 'password',
-            value: formContent.password,
-            onChange: setInputs,
-            className: 'input',
+        createElement(
+          'div', {
+            className: 'control',
           },
-        )),
+          createElement(
+            'input', {
+              type: 'password',
+              name: 'password',
+              value: formContent.password,
+              onChange: setInputs,
+              className: 'input',
+            },
+          ),
+        ),
       ),
     ),
     createElement('p', null, `${messages}`),

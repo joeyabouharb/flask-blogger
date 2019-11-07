@@ -11,6 +11,8 @@ const ArticleForm = (props) => {
     content: '',
     access_token: '',
   });
+  const [error, onErrorSet] = useState();
+
   useEffect(() => {
     formContent.access_token = state.access_token;
   }, []);
@@ -21,17 +23,23 @@ const ArticleForm = (props) => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    postArticle(formContent).then(
-      (response) => {
-        if (response.status === 200 || response.status === 201) {
-          props.history.push('/');
-        } else {
-          throw new Error('??');
-        }
-      },
-    ).catch((err) => {
-      throw new Error(err);
-    });
+    if (event && (formContent.title && formContent.content)) {
+      postArticle(formContent).then(
+        (response) => {
+          if (response.status === 200 || response.status === 201) {
+            props.history.push('/');
+          } else {
+            throw new Error('??');
+          }
+        },
+      ).catch((err) => {
+        throw new Error(err);
+      });
+    } else {
+      onErrorSet(() => (
+        'Ensure you have entered in your blog correctly!'
+      ));
+    }
   };
 
   return createElement(
@@ -41,10 +49,10 @@ const ArticleForm = (props) => {
     }, createElement(
       'div', { className: 'field' },
       createElement(
-        'label', { className: 'label' },
+        'div', { className: 'control' },
       ),
       createElement(
-        'div', { className: 'control' },
+        'label', { className: 'label' },
         'Title: ', createElement(
           'input', {
             type: 'text',
@@ -59,10 +67,10 @@ const ArticleForm = (props) => {
     createElement(
       'div', { className: 'field' },
       createElement(
-        'label', { className: 'label' },
+        'div', { className: 'control' },
       ),
       createElement(
-        'div', { className: 'control' },
+        'label', { className: 'label' },
         'Content: ', createElement(
           'textarea', {
             name: 'content',
@@ -73,12 +81,12 @@ const ArticleForm = (props) => {
         ),
       ),
     ),
+    createElement('p', { }, error), 
     createElement(
-      'input', {
+      'button', {
         type: 'submit',
-        value: 'Submit',
         className: 'button is-link',
-      },
+      }, 'Submit',
     ),
   );
 };

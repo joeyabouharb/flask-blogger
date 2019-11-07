@@ -7,7 +7,7 @@ import { AuthProvider } from '../contexts/auth/store';
 import '../styles/index.sass';
 
 const App = () => createElement(
-  'section', { className: 'section' },
+  'section', { className: 'section has-background-grey-light' },
   createElement(
     AuthProvider, null,
     createElement(

@@ -1,7 +1,7 @@
 import { createElement, useState } from 'react';
 import { registerRequest } from '../services/data_services';
 
-const RegisterForm = (props) => {
+const RegisterForm = ({props}) => {
   const [formContent, onContentChange] = useState({
     name: '',
     email: '',

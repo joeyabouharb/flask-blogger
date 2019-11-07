@@ -4,14 +4,14 @@
 
 const URL = 'http://127.0.0.1:5000/api/v1';
 
-export const getArticles = () => fetch(
-  `${URL}/posts`,
+export const getArticles = (currentPage) => fetch(
+  `${URL}/posts?page=${currentPage}`,
 ).then((res) => res.json()).catch((err) => {
   throw err;
 });
 
 export const postArticle = ({ access_token, ...body }) => fetch(
-  `${URL}/posts`, {
+  `${URL}/posts/`, {
     method: 'POST',
     mode: 'cors',
     credentials: 'same-origin',
