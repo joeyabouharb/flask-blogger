@@ -51,17 +51,10 @@ export const Router = defaultRoutes.map(
       path,
       exact,
       render: (props) => (
-<<<<<<< HEAD
-        createElement(component, { ...props, ...rest })
-      ),
-    })),
-));
-=======
         createElement(component, { ...props, ...rest })),
     },
   ),
 );
->>>>>>> joey
 
 export const GuestRouter = () => {
   const state = useAuthContext();
