@@ -27,8 +27,8 @@ def drop_db():
 @app.cli.command('seed_db')
 def seed_db():
     example_post = Post(
-        title='I wanted a little freedom! ',
-        content='but it got me nothing'
+        content='<h2 class="title is-1"> this is an example post! </h2><p> Pariatur non culpa magna sint exercitation et dolor amet reprehenderit ad. Reprehenderit tempor sint eiusmod esse pariatur. Sunt elit irure proident commodo est eu officia aliqua exercitation aute. Qui dolor do laborum officia ex sit nisi excepteur aliqua et tempor. </p><p> Consectetur laborum voluptate deserunt est ut nulla qui. Exercitation laboris fugiat deserunt non ea. Duis ea cupidatat minim et. Ut sint ipsum labore do laborum deserunt sint dolor sit ad. Ut fugiat aute esse deserunt laborum labore ea. Dolor ad fugiat culpa ad velit irure anim voluptate consequat sit laborum magna magna. </p'
     )
     DB.session.add(example_post)
+    DB.session.commit()
     print('seeded db!')

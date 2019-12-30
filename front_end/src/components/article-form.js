@@ -1,13 +1,13 @@
 import {
   createElement, useState, useEffect,
 } from 'react';
+import { Editor } from '@tinymce/tinymce-react'
 import { useAuthContext } from '../contexts/auth/store';
 import { postArticle } from '../services/data_services';
 
 const ArticleForm = (props) => {
   const state = useAuthContext();
   const [formContent, onContentChange] = useState({
-    title: '',
     content: '',
     access_token: '',
   });
@@ -18,12 +18,12 @@ const ArticleForm = (props) => {
   }, []);
   const setInputs = (event) => onContentChange({
     ...formContent,
-    [event.target.name]: event.target.value,
+    content: event.target.getContent(),
   });
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    if (event && (formContent.title && formContent.content)) {
+    if (event && (formContent.content)) {
       postArticle(formContent).then(
         (response) => {
           if (response.status === 200 || response.status === 201) {
@@ -46,39 +46,38 @@ const ArticleForm = (props) => {
     'form', {
       onSubmit: onFormSubmit,
       className: 'section',
-    }, createElement(
-      'div', { className: 'field' },
-      createElement(
-        'div', { className: 'control' },
-      ),
-      createElement(
-        'label', { className: 'label' },
-        'Title: ', createElement(
-          'input', {
-            type: 'text',
-            value: formContent.title,
-            name: 'title',
-            onChange: setInputs,
-            className: 'input',
-          },
-        ),
-      ),
-    ),
+    },
     createElement(
       'div', { className: 'field' },
       createElement(
         'div', { className: 'control' },
-      ),
       createElement(
         'label', { className: 'label' },
         'Content: ', createElement(
-          'textarea', {
+          Editor, {
             name: 'content',
-            value: formContent.content,
+            initialValue: "<p>This is the initial content of the editor</p>",
+            init: {
+              height: 500,
+              menubar: true,
+              plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+              ],
+              toolbar:
+                'undo redo | formatselect | bold italic backcolor | \
+                alignleft aligncenter alignright alignjustify | \
+                bullist numlist outdent indent | removeformat | help',
+              content_css: "https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css",
+              extended_valid_elements: [
+                'h1[class="title is-1"]', 'h2[class="title is-2"]', 'h3[class="title is-3"]'
+              ]
+            },
             onChange: setInputs,
-            className: 'input',
           },
         ),
+      ),
       ),
     ),
     createElement('p', { }, error), 

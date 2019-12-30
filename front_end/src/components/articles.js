@@ -40,7 +40,7 @@ const ArticlesContent = () => {
       'section', {
         className: 'hero is-light',
       }, '',
-    ), result ? result.map((content) => Article(content)) : '',
+    ), result ? result.map((content, index) => Article(content, index)) : '',
     createElement(Pagination, { currentPage, setCurrentPage, initialPager })
   );
 };

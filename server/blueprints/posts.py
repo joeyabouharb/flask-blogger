@@ -47,9 +47,10 @@ def make_new_blog_post():
     Requires:
         JWT authorization
     """
-    title = request.json['title']
-    content = request.json['content']
-    new_post = Post(title=title, content=content)
+    content = request.json.get('content', '').replace('\n', '')
+    if not content:
+        return jsonify(message="no content created"), 400
+    new_post = Post(content=content)
     DB.session.add(new_post)
     DB.session.commit()
     return jsonify(message="New blog post created"), 201
@@ -73,7 +74,7 @@ def delete_post(post_id: int):
     """Delete the record from database posts table
 
     Just enter the blog-post number into Postman with a DELETE request:
-        ./delete-post/666
+        ./delete-post/66
 
     Arguments:
         post_id: int: takes the argument from the URL

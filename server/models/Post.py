@@ -13,7 +13,6 @@ class PostSchema(MA.Schema):
     class Meta:
         fields = (
             'post_id',
-            'title',
             'content'
         )
 
