@@ -1,23 +1,31 @@
 import { createElement, useState } from 'react';
-import { registerRequest } from '../services/data_services';
+import { loginRequest } from '../services/data_services';
+import { useAuthDispatch } from '../contexts/auth/store';
+import { userLogsIn } from '../contexts/auth/actions';
 
-const RegisterForm = ({props}) => {
+const Login = (props) => {
   const [formContent, onContentChange] = useState({
-    name: '',
     email: '',
     password: '',
   });
+  const [messages, onMessageChange] = useState('');
   const setInputs = (event) => onContentChange({
     ...formContent,
     [event.target.name]: event.target.value,
   });
 
+  const dispatch = useAuthDispatch();
+
   const onFormSubmit = (event) => {
     event.preventDefault();
-    registerRequest(formContent).then((response) => {
-      if (response.status === 201) {
-        props.history.push('/');
+    loginRequest(formContent).then((data) => {
+      if (data.access_token) {
+        dispatch(userLogsIn(data.access_token));
+      } else {
+        throw new Error('Invalid Credentials!');
       }
+    }).then().catch((error) => {
+      onMessageChange(error);
     });
   };
 
@@ -38,28 +46,7 @@ const RegisterForm = ({props}) => {
           'label', {
             className: 'label',
           },
-          'Username: ', createElement(
-            'input', {
-              type: 'text',
-              value: formContent.name,
-              name: 'name',
-              onChange: setInputs,
-              className: 'input',
-            },
-          ),
-        ),
-      ),
-    ),
-    createElement(
-      'div', {
-        className: 'field',
-      },
-      createElement(
-        'div', { className: 'control' },
-        createElement(
-          'label', { className: 'label' },
-          'Email: ',
-          createElement(
+          'Email: ', createElement(
             'input', {
               name: 'email',
               type: 'email',
@@ -72,9 +59,16 @@ const RegisterForm = ({props}) => {
       ),
     ),
     createElement(
-      'div', { className: 'field' }, createElement('div', { className: 'control' },
+      'div', {
+        className: 'field',
+      },
+      createElement(
+        'label', { className: 'label' },
+        'Password: ',
         createElement(
-          'label', { className: 'label' }, 'Password: ',
+          'div', {
+            className: 'control',
+          },
           createElement(
             'input', {
               type: 'password',
@@ -84,19 +78,17 @@ const RegisterForm = ({props}) => {
               className: 'input',
             },
           ),
-        )),
+        ),
+      ),
     ),
+    createElement('p', null, `${messages}`),
     createElement(
-      'div', { className: 'field' },
-      createElement('div', { className: 'control' },
-        createElement(
-          'button', {
-            type: 'submit',
-            className: 'button',
-          }, 'Submit',
-        )),
+      'button', {
+        type: 'submit',
+        className: 'button',
+      }, 'Submit',
     ),
   );
 };
 
-export default RegisterForm;
+export default Login;

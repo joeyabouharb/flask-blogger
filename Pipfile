@@ -12,7 +12,11 @@ flask-marshmallow = "*"
 flask-jwt-extended = "*"
 python-dotenv = "*"
 marshmallow-sqlalchemy = "*"
+<<<<<<< HEAD
 flask-cors = "*"
+=======
+blogg-web-platform = {editable = true,path = "."}
+>>>>>>> joey
 
 [requires]
 python_version = "3"

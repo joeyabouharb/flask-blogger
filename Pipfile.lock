@@ -1,7 +1,11 @@
 {
     "_meta": {
         "hash": {
+<<<<<<< HEAD
             "sha256": "0f5b9d5c315253714f2413fa38b903e3c791ddc6da6f0e133adc06890612e11f"
+=======
+            "sha256": "0c1fa81b28e587c7b4f2156c29711e534b71fad7c35888c76289411433b011ab"
+>>>>>>> joey
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +20,10 @@
         ]
     },
     "default": {
+        "blogg-web-platform": {
+            "editable": true,
+            "path": "."
+        },
         "click": {
             "hashes": [
                 "sha256:2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13",

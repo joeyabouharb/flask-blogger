@@ -1,13 +1,14 @@
 import { createElement } from 'react';
 import {
-  Route, Switch,
+  Route, Redirect,
 } from 'react-router-dom';
 import Articles from '../components/articles';
 import ArticleForm from '../components/article-form';
 import RegisterForm from '../components/register';
+import Login from '../components/login';
+import { useAuthContext } from '../contexts/auth/store';
 
-
-const routes = [
+const defaultRoutes = [
   {
     path: '/',
     exact: true,
@@ -18,32 +19,89 @@ const routes = [
     component: Articles,
     exact: true,
   },
+];
+
+const guestRoutes = [
+  {
+    path: '/register',
+    component: RegisterForm,
+    exact: true,
+  },
+  {
+    path: '/login',
+    component: Login,
+    exact: true,
+  },
+];
+
+const secureRoutes = [
   {
     path: '/blog/new',
     component: ArticleForm,
     exact: true,
   },
-  {
-    path: 'register',
-    component: RegisterForm,
-    exact: true,
-  },
 ];
 
-
-export const InjectRoutes = createElement(Switch, null, routes.map(
+export const Router = defaultRoutes.map(
   ({
     path, exact, component, ...rest
-  }) => (
-    createElement(Route, {
+  }) => createElement(
+    Route, {
       key: path,
       path,
       exact,
       render: (props) => (
+<<<<<<< HEAD
         createElement(component, { ...props, ...rest })
       ),
     })),
 ));
+=======
+        createElement(component, { ...props, ...rest })),
+    },
+  ),
+);
+>>>>>>> joey
 
+export const GuestRouter = () => {
+  const state = useAuthContext();
+  return guestRoutes.map(
+    ({
+      path, exact, component, ...rest
+    }) => createElement(
+      Route, {
+        key: path,
+        path,
+        exact,
+        render: (props) => (
+          !state
+            ? createElement(
+              component, { props, ...rest },
+            )
+            : createElement(Redirect, { to: '/' })
+        ),
+      },
+    ),
+  );
+};
 
-export default routes;
+export const SecureRouter = () => {
+  const state = useAuthContext();
+  return secureRoutes.map(
+    ({
+      path, exact, component, ...rest
+    }) => createElement(
+      Route, {
+        key: path,
+        path,
+        exact,
+        render: (props) => (
+          state
+            ? createElement(
+              component, { ...props, ...rest },
+            )
+            : createElement(Redirect, { to: '/' })),
+      },
+    ),
+  );
+};

@@ -5,6 +5,10 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from flask_cors import CORS
+<<<<<<< HEAD
+=======
+
+>>>>>>> joey
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -69,6 +73,7 @@ def display_single_post(post_id: int):
         return jsonify(message="Post does not exist"), 404
 
 @app.route('/api/v1/posts', methods=['POST'])
+@jwt_required
 def make_new_blog_post():
     """Accepts form data and creates new database record in blog-post table
 
