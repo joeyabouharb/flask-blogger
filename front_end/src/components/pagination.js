@@ -1,7 +1,6 @@
 import { createElement, useState, useEffect } from 'react';
 import { range } from '../services/utilts';
 import { getArticles } from '../services/data_services';
-import Article from './article';
 import { useArticleContext, useArticleDispatch } from '../contexts/article/store';
 import { requestArticles } from '../contexts/article/actions';
 
@@ -31,6 +30,7 @@ const Buttons = ({ currentPage, setCurrentPage, pager, setPager, initialPager })
             getArticles(num).then(
               (data) => articleDispatcher(requestArticles(data))
             );
+            console.log(pager)
           }
         }, num,
       ),
@@ -40,12 +40,12 @@ const Buttons = ({ currentPage, setCurrentPage, pager, setPager, initialPager })
 const Pagination = ({ currentPage, setCurrentPage, initialPager}) => {
   const articleDispatcher = useArticleDispatch();
   const { pageNo } = useArticleContext();
-  const [pagination, setPagination] = useState();
   const [pager, setPager] = useState();
   
   useEffect(() => {
     setPager(initialPager)
   }, [initialPager])
+
   return createElement(
     'nav', {
       className: 'pagination is-centered',
@@ -55,21 +55,36 @@ const Pagination = ({ currentPage, setCurrentPage, initialPager}) => {
     createElement('a', {
       className: 'pagination-previous',
       onClick: () => {
-        currentPage > 1 ? setCurrentPage(currentPage - 1) : 1
-        pager !== initialPager ? setPager(pager - 1) : initialPager
-        getArticles(currentPage - 1).then(
-          (data) => articleDispatcher(requestArticles(data))
-        );
+        console.log(currentPage)
+        if (currentPage > 1) {
+          const previousPage = currentPage - 1;
+          setCurrentPage(previousPage);
+          getArticles(previousPage).then(data => articleDispatcher(requestArticles(data)));
+          if (previousPage <= pager) {
+            if (pager === initialPager) {
+              setPager(initialPager)
+            } else {
+              setPager(previousPage)
+            }
+          }
+        }
       }
     }, 'Previous'),
     createElement('a', {
       className: 'pagination-next',
       onClick: () => {
-        currentPage < pageNo ? setCurrentPage(currentPage + 1) : currentPage
-        pager !== pageNo ? setPager(pager + 1) : pager
-        getArticles(currentPage + 1).then(
-          (data) => articleDispatcher(requestArticles(data))
-        );
+        if (currentPage < pageNo) {
+          const nextPage = currentPage + 1;
+          setCurrentPage(nextPage);
+          getArticles(nextPage).then(data => articleDispatcher(requestArticles(data)));
+          if (nextPage === pager) {
+            if (nextPage === pageNo) {
+              setPager(nextPage)
+            } else {
+              setPager(nextPage + 1)
+            }
+          }
+        }
       }
     }, 'Next'),
     createElement('ul', { className: 'pagination-list section' },

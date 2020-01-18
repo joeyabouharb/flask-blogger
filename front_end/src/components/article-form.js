@@ -70,9 +70,6 @@ const ArticleForm = (props) => {
                 alignleft aligncenter alignright alignjustify | \
                 bullist numlist outdent indent | removeformat | help',
               content_css: "https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css",
-              extended_valid_elements: [
-                'h1[class="title is-1"]', 'h2[class="title is-2"]', 'h3[class="title is-3"]'
-              ]
             },
             onChange: setInputs,
           },

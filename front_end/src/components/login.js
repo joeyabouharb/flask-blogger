@@ -29,11 +29,11 @@ const Login = (props) => {
     });
   };
 
-  return createElement(
+  return createElement('div', { className: 'section'}, createElement(
     'form', {
       onSubmit: onFormSubmit,
-      className: 'section',
-    },
+      className: 'container',
+    }, createElement('h2', { className: 'title is-3' }, 'Login'),
     createElement(
       'div', {
         className: 'field',
@@ -88,7 +88,7 @@ const Login = (props) => {
         className: 'button',
       }, 'Submit',
     ),
-  );
+  ));
 };
 
 export default Login;

@@ -6,23 +6,26 @@ import Footer from './footer';
 import { AuthProvider } from '../contexts/auth/store';
 import '../styles/index.sass';
 
-const App = () => createElement(
-  'section', { className: 'section has-background-grey-light' },
+const App = () => 
   createElement(
     AuthProvider, null,
     createElement(
       BrowserRouter, null,
       createElement(Header),
       createElement(
-        Switch, null,
-        Router,
+        'section', {
+          className: 'hero is-fullheight has-background-grey-light'
+        },
+        createElement(
+          Switch, null,
+          Router,
+        ),
+        createElement(SecureRouter),
+        createElement(GuestRouter),
       ),
-      createElement(SecureRouter),
-      createElement(GuestRouter),
       createElement(Footer),
     ),
-  ),
-);
+  );
 
 
 export default App;

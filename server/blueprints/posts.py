@@ -1,3 +1,4 @@
+from math import ceil
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 from server.models import DB
@@ -14,9 +15,9 @@ def display_blog_posts():
     end = page * 6
     blog = Post.query.all()
     result = posts_schema.dump(blog)
-    pages = len(result) // 6
+    pages =  ceil(len(result) / 6)
+    print(pages)
     page = result[start:end]
-    print(page)
     return jsonify(
         {
             "result": page,

@@ -6,7 +6,7 @@ const Header = () => {
   const state = useAuthContext();
 
   return createElement(
-    'nav', { className: 'columns navbar is-spaced is-dark' },
+    'nav', { className: 'navbar is-spaced is-dark' },
     state
       ? [
         createElement(

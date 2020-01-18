@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "create": "webpack",
-    "start": "webpack-dev-server --open",
+    "start": "parcel public/index.html",
     "lint": "eslint --init"
   },
   "repository": {
@@ -29,9 +29,11 @@
   "dependencies": {
     "@babel/runtime": "^7.7.7",
     "@babel/runtime-corejs2": "^7.7.7",
+    "@emotion/core": "^10.0.27",
     "@tinymce/tinymce-react": "^3.3.2",
     "bulma": "^0.8.0",
     "core-js": "^3.6.1",
+    "emotion": "^10.0.27",
     "jsonwebtoken": "^8.5.1",
     "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
@@ -39,6 +41,7 @@
     "react-dom": "^16.12.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
+    "react-spinners": "^0.8.0",
     "regenerator-runtime": "^0.13.3",
     "sass-loader": "^8.0.0",
     "serialize-to-js": "^3.0.2"
@@ -70,6 +73,7 @@
       "@babel/preset-env"
     ],
     "plugins": [
+      "emotion",
       [
         "@babel/plugin-transform-runtime",
         {

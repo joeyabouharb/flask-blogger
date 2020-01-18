@@ -21,11 +21,12 @@ const RegisterForm = ({props}) => {
     });
   };
 
-  return createElement(
+  return createElement('div', { className: 'section' },
+  createElement(
     'form', {
       onSubmit: onFormSubmit,
-      className: 'section',
-    },
+      className: 'container',
+    }, createElement('h2', { className: 'title is-2' }, 'Register For a User Account:'),
     createElement(
       'div', {
         className: 'field',
@@ -96,7 +97,7 @@ const RegisterForm = ({props}) => {
           }, 'Submit',
         )),
     ),
-  );
+  ));
 };
 
 export default RegisterForm;

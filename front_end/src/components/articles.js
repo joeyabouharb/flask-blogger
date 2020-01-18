@@ -8,6 +8,8 @@ import { Pagination } from './pagination';
 import Article from './article';
 import { ArticlesProvider, useArticleDispatch, useArticleContext } from '../contexts/article/store';
 import { requestArticles } from '../contexts/article/actions';
+import { SyncLoader } from 'react-spinners';
+import { css } from '@emotion/core';
 
 const Articles = () => {
   return createElement(ArticlesProvider, {}, createElement(ArticlesContent));
@@ -22,6 +24,7 @@ const ArticlesContent = () => {
   useEffect(() => {
     getArticles(currentPage).then(
       (data) => {
+        console.log(data)
         articleDispatcher(
         requestArticles(data)
       );
@@ -30,7 +33,10 @@ const ArticlesContent = () => {
     );
   }, [pageNo]);
   return createElement(
-    'main', { className: 'section' },
+    'section', { className: 'hero-body' },
+    createElement('div', {
+      className: 'container'
+    },
     createElement(
       'h1', {
         className: 'title is-1',
@@ -40,9 +46,15 @@ const ArticlesContent = () => {
       'section', {
         className: 'hero is-light',
       }, '',
-    ), result ? result.map((content, index) => Article(content, index)) : '',
-    createElement(Pagination, { currentPage, setCurrentPage, initialPager })
-  );
+    ), result
+      ? result.map((content, index) => Article(content, index))
+      : createElement(SyncLoader, {
+        size: 100, css: css`margin: 100px;`
+      }),
+    createElement(Pagination, {
+      currentPage, setCurrentPage, initialPager
+    }),
+  ));
 };
 
 export default Articles;
